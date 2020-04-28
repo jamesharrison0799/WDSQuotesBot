@@ -1,0 +1,3 @@
+pip install --upgrade Pillow
+pip install requests
+pip install -U discord.py

@@ -12,7 +12,7 @@ parser.read('quotemaker/settings.ini')
 print(parser.sections())
 
 #Check for output file
-if !os.path.isdir('quotemaker/final'):
+if not os.path.exists('quotemaker/final'):
     os.mkdir('quotemaker/final')
 
 class ImageMaker:

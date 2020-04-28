@@ -4,6 +4,7 @@ import time
 from quotemaker.quotemaker import ImageMaker
 from discord.ext import commands
 from configparser import ConfigParser
+from googletrans import Translator
 
 parser = ConfigParser()
 parser.read('config.ini')
@@ -20,6 +21,8 @@ async def on_ready():
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send("Missing requirements, pls use proper syntax")
+    else:
+        print(error)
 
 @client.command(pass_context=True)
 async def helpme(ctx):
@@ -51,9 +54,21 @@ async def quote(ctx,author,quote):
         with open(img.last_image(),'rb') as f:
             await ctx.send(file=discord.File(f))
         print("{} created by {} in {}".format(img.last_image(), ctx.message.author, ctx.message.guild))
-        del img
     except Exception as e:
         await ctx.send("Shite, somethings gone wrong")
+        print(e)
+
+@client.command(pass_context=True)
+async def changenames(ctx):
+    sender = str(ctx.message.author.nick)
+    translator = Translator()
+    t = translator.translate(sender, dest='iw')
+    print(f'{t.text}')
+    await ctx.send(f'{t.text}')
+    try:
+        await ctx.message.author.edit(nick=f'{t.text}')
+    except Exception as e:
+        await ctx.send("The bot is lower than you in the permission hierarchy so it cant change your name!")
         print(e)
 
 

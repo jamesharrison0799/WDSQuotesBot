@@ -4,10 +4,16 @@ import requests
 import textwrap
 import time
 from configparser import ConfigParser
+import os
 
+#Load Parser
 parser = ConfigParser()
 parser.read('quotemaker/settings.ini')
 print(parser.sections())
+
+#Check for output file
+if !os.path.isdir('quotemaker/final'):
+    os.mkdir('quotemaker/final')
 
 class ImageMaker:
 

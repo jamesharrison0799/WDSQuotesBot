@@ -59,17 +59,25 @@ async def quote(ctx,author,quote):
         print(e)
 
 @client.command(pass_context=True)
-async def changenames(ctx):
+async def changenames(ctx,lang):
     sender = str(ctx.message.author.nick)
     translator = Translator()
-    t = translator.translate(sender, dest='iw')
-    print(f'{t.text}')
-    await ctx.send(f'{t.text}')
-    try:
-        await ctx.message.author.edit(nick=f'{t.text}')
-    except Exception as e:
-        await ctx.send("The bot is lower than you in the permission hierarchy so it cant change your name!")
-        print(e)
+    for member in ctx.guild.members:
+        try:
+            if  member.nick is None:
+                temp_string = ""
+                for char in member.name:
+                    t = translator.translate(char,dest=lang)
+                    temp_string += t.text
+                print("1 "+ member.name +' -> '+ temp_string)
+            else:
+                t = translator.translate(member.nick, dest=lang)
+                print("2 "+member.nick +' -> '+ t.text)
+
+            #await member.edit(nick=f'{t.text}')
+        except Exception as e:
+            await ctx.send("The bot is lower than you in the permission hierarchy so it cant change your name!")
+            print(Exception)
 
 
 

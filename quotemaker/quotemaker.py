@@ -8,12 +8,20 @@ import os
 
 #Load Parser
 parser = ConfigParser()
-parser.read('quotemaker/settings.ini')
-print(parser.sections())
 
-#Check for output file
-if not os.path.exists('quotemaker/final'):
-    os.mkdir('quotemaker/final')
+#Check for output file and find settings.ini
+if not __name__ == '__main__':
+    if not os.path.exists('quotemaker/final'):
+        os.mkdir('quotemaker/final')
+        finalpath = ('quotemaker/final')
+        parser.read('quotemaker/settings.ini')
+        print(parser.sections())
+else:
+    if not os.path.exists('/final'):
+        os.mkdir('/final')
+        finalpath = ('/final')
+        parser.read('settings.ini')
+        print(parser.sections())
 
 class ImageMaker:
 
@@ -21,7 +29,7 @@ class ImageMaker:
         self.message = '"' + message + '"'
         self.author = author
         self.image_path = image_path
-        self.outpath = "quotemaker/final/{}-{}.png".format(self.author.replace(" ",""),time.strftime("%x %X",time.gmtime()).replace("/","_").replace(" ","-").replace(":","_"))
+        self.outpath = "{}/{}-{}.png".format(finalpath,self.author.replace(" ",""),time.strftime("%x %X",time.gmtime()).replace("/","_").replace(" ","-").replace(":","_"))
 
     def last_image(self):
         return(format(self.outpath))

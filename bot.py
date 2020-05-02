@@ -5,7 +5,6 @@ from quotemaker.quotemaker import ImageMaker
 from quotemaker.quotemaker import ImageMakerSettings
 from discord.ext import commands
 from configparser import ConfigParser
-from googletrans import Translator
 import os
 
 parser = ConfigParser()

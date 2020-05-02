@@ -13,6 +13,9 @@ parser.read('config.ini')
 client = commands.Bot(command_prefix =parser.get('commands','command_prefix'))
 client.remove_command('help')
 
+#create instanance of ImageMakerSettings so bot can change settings.ini
+im = ImageMakerSettings()
+
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game("use .helpme for commands"))
@@ -62,21 +65,28 @@ async def quote(ctx,author,quote):
 @client.command()
 async def changefont(ctx, type, font):
     try:
-        if type == "quote":
-            if font_check(font):
-                ImageMakerSettings().config('text', 'quote_font', str(font))
-            else:
-                print("Font not found.")
-        elif type == "name":
-            if font_check(font):
-                ImageMakerSettings.config('text', 'name_font', str(font))
-            else:
-                print("Font not found.")
+        if type == "quote" or type == "name":
+            if type == "quote":
+                if font_check(font):
+                    im.config('text', 'quote_font', str(font))
+                else:
+                    await ctx.send("The font {} was not found on the system.".format(font))
+                    print("Font not found.")
+            elif type == "name":
+                if font_check(font):
+                    im.config('text', 'name_font', str(font))
+                else:
+                    print("Font not found.")
+            print("{} font changed to {}".format(type, font))
         else:
             print("fuck off")
-
     except Exception as e:
         raise
+
+@client.command()
+async def defaultfont(ctx,tpye):
+    pass
+
 
 def font_check(font):
     if font in os.listdir('C:/Windows/Fonts'):

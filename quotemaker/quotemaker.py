@@ -124,8 +124,8 @@ class ImageMaker:
         comp.close()
 
 class ImageMakerSettings:
-    def __init__():
+    def __init__(self):
         pass
 
-    def config(section,var,val):
+    def config(self,section,var,val):
         parser.set(section,var,val)

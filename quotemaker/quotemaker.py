@@ -129,3 +129,7 @@ class ImageMakerSettings:
 
     def config(self,section,var,val):
         parser.set(section,var,val)
+
+    def resetfonts(self):
+        parser.set('text','quote_font',parser.get('defaults','default_quote_font'))
+        parser.set('text','name_font',parser.get('defaults','default_name_font'))

@@ -84,8 +84,9 @@ async def changefont(ctx, type, font):
         raise
 
 @client.command()
-async def defaultfont(ctx,tpye):
-    pass
+async def resetfonts(ctx):
+    im.resetfonts()
+    print("fonts have been reset to defualt")
 
 
 def font_check(font):

@@ -8,20 +8,12 @@ import os
 
 #Load Parser
 parser = ConfigParser()
+parser.read('quotemaker/settings.ini')
 
 #Check for output file and find settings.ini
-if not __name__ == '__main__':
-    if not os.path.exists('quotemaker/final'):
-        os.mkdir('quotemaker/final')
-        finalpath = ('quotemaker/final')
-        parser.read('quotemaker/settings.ini')
-        print(parser.sections())
-else:
-    if not os.path.exists('/final'):
-        os.mkdir('/final')
-        finalpath = ('/final')
-        parser.read('settings.ini')
-        print(parser.sections())
+
+if not os.path.exists('quotemaker/final'):
+    os.mkdir('quotemaker/final')
 
 class ImageMaker:
 
@@ -29,7 +21,8 @@ class ImageMaker:
         self.message = '"' + message + '"'
         self.author = author
         self.image_path = image_path
-        self.outpath = "{}/{}-{}.png".format(finalpath,self.author.replace(" ",""),time.strftime("%x %X",time.gmtime()).replace("/","_").replace(" ","-").replace(":","_"))
+        self.outpath = "quotemaker/final/{}-{}.png".format(self.author.replace(" ",""),time.strftime("%x %X",time.gmtime()).replace("/","_").replace(" ","-").replace(":","_"))
+
 
     def last_image(self):
         return(format(self.outpath))
@@ -43,7 +36,7 @@ class ImageMaker:
         size = (W, H)
         max_width = parser.getint('text','max_quote_line_length')
 
-        bg = Image.open("quotemaker/assests/bg.png")
+        bg = Image.open("quotemaker/assests/bg.png".format())
         quote = ImageFont.truetype(parser.get('text','quote_font'),parser.getint('text','quote_size'))
         person = ImageFont.truetype(parser.get('text','name_font'),parser.getint('text','name_size'))
 
@@ -129,3 +122,10 @@ class ImageMaker:
 
         im.close()
         comp.close()
+
+class ImageMakerSettings:
+    def __init__():
+        pass
+
+    def config(section,var,val):
+        parser.set(section,var,val)

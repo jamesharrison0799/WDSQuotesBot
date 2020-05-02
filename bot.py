@@ -2,9 +2,11 @@ import discord
 from PIL import Image, ImageDraw, ImageFont
 import time
 from quotemaker.quotemaker import ImageMaker
+from quotemaker.quotemaker import ImageMakerSettings
 from discord.ext import commands
 from configparser import ConfigParser
 from googletrans import Translator
+import os
 
 parser = ConfigParser()
 parser.read('config.ini')
@@ -61,14 +63,25 @@ async def quote(ctx,author,quote):
 @client.command()
 async def changefont(ctx, type, font):
     try:
-        if type == "quote" or type == "name":
-            print("woop")
+        if type == "quote":
+            if font_check(font):
+                ImageMakerSettings().config('text', 'quote_font', str(font))
+            else:
+                print("Font not found.")
+        elif type == "name":
+            if font_check(font):
+                ImageMakerSettings.config('text', 'name_font', str(font))
+            else:
+                print("Font not found.")
         else:
             print("fuck off")
 
     except Exception as e:
         raise
 
+def font_check(font):
+    if font in os.listdir('C:/Windows/Fonts'):
+        return True
 
 
 try:
